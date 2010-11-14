@@ -1,6 +1,8 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
+require 'spec_helper'
+
 require 'game'
 
 describe Game do
@@ -9,7 +11,7 @@ describe Game do
   end
 
   it "should desc" do
-    # TODO
+    @game.should be_a Game
   end
 end
 
