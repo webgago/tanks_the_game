@@ -5,6 +5,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="[gem] rspec (v2.1.0, /usr/local/lib/ruby/gems/1.9.1/gems/rspec-2.1.0)" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="[gem] rake (v0.8.7, /usr/local/lib/ruby/gems/1.9.1/gems/rake-0.8.7)" level="application" />
   </component>
 </module>
 

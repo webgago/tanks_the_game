@@ -1,7 +1,7 @@
 # To change this template, choose Tools | Templates
 # and open the template in the editor.
 
-require 'spec_helper'
+require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 require 'game'
 

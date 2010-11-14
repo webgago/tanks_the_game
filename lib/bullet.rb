@@ -1,15 +1,29 @@
 class Bullet < Chingu::GameObject
-  #
-  # If we need our own initialize, just call super and Chingu does it's thing.
-  # Here we merge in an extra argument, specifying the bullet-image.
-  #
+  traits :bounding_circle, :collision_detection, :velocity, :timer
+  
   def initialize(options)
-    super(options.merge(:image => Image["fire_bullet.png"]))
+    super(options.merge(:image => Image["bomb.png"]))
+    @direction = options[:direction] || :up
+    @angles = {:up => 90, :down => -90, :left => 0, :right => 180}
+    self.angle = @angles[@direction]
   end
 
-  # Move the bullet forward
   def update
-    @y -= 2
+    case @direction
+      when :up
+        @y -= 2
+      when :down
+        @y += 2
+      when :left
+        @x -= 2
+      when :right
+        @x += 2
+    end
+  end
+
+  def die
+    self.velocity = [0,0]
+    between(0,50) { self.factor += 0.3; self.alpha -= 10; }.then { destroy }
   end
 
 end

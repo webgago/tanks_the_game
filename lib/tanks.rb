@@ -19,9 +19,9 @@ module Tanks
     end
 
     def autoloads!
-      Gosu::Image.autoload_dirs << Tanks.media
       Gosu::Image.autoload_dirs << Tanks.media.join('images')
-      Gosu::Image.autoload_dirs << Tanks.media.join('sound')
+      Gosu::Image.autoload_dirs << Tanks.media
+      Gosu::Sound.autoload_dirs << Tanks.media.join('sound')
     end
   end
 

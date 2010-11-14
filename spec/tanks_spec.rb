@@ -5,11 +5,11 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
 
 describe Tanks do
   it "should has root method" do
-    Tanks.root.to_s.should == '/home/anton/Dropbox/projects/tanks/lib'
+    Tanks.root.to_s.should == '/home/anton/projects/tanks/lib'
   end
 
   it "should has media method" do
-    Tanks.media.to_s.should == '/home/anton/Dropbox/projects/tanks/media'
+    Tanks.media.to_s.should == '/home/anton/projects/tanks/media'
   end
 
   it "should load images from media" do

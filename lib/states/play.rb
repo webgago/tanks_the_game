@@ -1,8 +1,14 @@
 class Play < Chingu::GameState
-
+  trait :viewport
   def initialize
     super
     @player = Player.create(:x => 200, :y => 200)
+    @walls = [2,4,6,8,10,12,14,16].map do |i|
+      Wall.create(:x => 16 * i + 16, :y => 32 * i)
+      Wall.create(:x => 16 * i, :y => 32 * i + 16)
+      Wall.create(:x => 16 * i + 16, :y => 32 * i + 16)
+      Wall.create(:x => 16 * i, :y => 32 * i)
+    end
 
     #
     # More advanced input-maps, showing of multiple keys leading to the same method
@@ -11,32 +17,26 @@ class Play < Chingu::GameState
                       [:holding_d, :holding_right, :holding_pad_right] => :move_right,
                       [:holding_w, :holding_up, :holding_pad_up] => :move_up,
                       [:holding_s, :holding_down, :holding_pad_down] => :move_down,
-                      [:space, :return, :pad_button_2] => :fire
+                      [:space, :return, :pad_button_2] => :fire,
+                      :mouse_left => :fire
                     }
     self.input = { :f1 => :debug, [:q, :escape] => :exit }
+    Sound['Start1.ogg'].play
   end
 
   def debug
     push_game_state(Chingu::GameStates::Debug.new)
   end
 
-  #
-  # If we want to add extra graphics drawn just define your own draw.
-  # Be sure to call #super for enabling Chingus autodrawing of instances of GameObject.
-  # Putting #super before or after the background-draw-call really doesn't matter since Gosu work with "zorder".
-  #
-  def draw
-    # Raw Gosu Image.draw(x,y,zorder)-call
-    super
-  end
-
-  #
-  # Gosus place for gamelogic is #update in the mainwindow
-  #
-  # A #super call here would call #update on all Chingu::GameObject-instances and check their inputs, and call the specified method.
-  #
   def update
     super
-    $window.caption = "FPS: #{$window.fps} - milliseconds_since_last_tick: #{$window.milliseconds_since_last_tick} - game objects# #{current_game_state.game_objects.size}"
+    Bullet.each_collision(Wall) do |bullet, wall|
+      bullet.destroy
+      wall.hit!
+    end
+
+    # Destroy game objects that travels outside the viewport
+    game_objects.destroy_if { |game_object| self.viewport.outside_game_area?(game_object)  }
+
   end
 end
